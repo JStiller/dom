@@ -339,24 +339,25 @@ var dom = function(dependency) {
    *
    * @see https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
    * @see https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
+   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
    * @param {string} deliveredSelection
    * @param {object} settings
    * @return {object}
    */
   function find(deliveredSelection, settings) {
-    var estimatedSettings = settings || {
+    var defaultSettings = {
       quantity: 'one',
+      context: dependency.document,
     };
+    var estimatedSettings = settings ? dependency.window.Object.assign(defaultSettings, settings) : defaultSettings;
 
     if (estimatedSettings.quantity === 'one') {
-      return dependency.document.querySelector(deliveredSelection);
+      return estimatedSettings.context.querySelector(deliveredSelection);
     } else if (estimatedSettings.quantity === 'all') {
-      return dependency.window.Array.prototype.slice.call(dependency.document.querySelectorAll(deliveredSelection));
-    } else {
-      throw new Error('missing or unkown quantity');
-
-      return {};
+      return dependency.window.Array.prototype.slice.call(estimatedSettings.context.querySelectorAll(deliveredSelection));
     }
+
+    throw new Error('missing or unkown quantity');
   }
 
   return {
@@ -370,4 +371,3 @@ var dom = function(dependency) {
   document: document,
   window: window,
 });
-
