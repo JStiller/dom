@@ -1,0 +1,24 @@
+{
+  "name": "dom",
+  "version": "0.0.1",
+  "description": "A little library to manipulate the dom",
+  "main": "dom.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JStiller/dom.git"
+  },
+  "keywords": [
+    "js",
+    "dom",
+    "manipulate"
+  ],
+  "author": "José Stiller <info@josestiller.de> (http://www.josestiller.de)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/JStiller/dom/issues"
+  },
+  "homepage": "https://github.com/JStiller/dom#readme"
+}

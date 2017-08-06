@@ -1,4 +1,4 @@
-var dom = function(dependency) {
+var dom = (function(dependency) {
   /**
    * Returns if the delivered node is a node
    *
@@ -341,15 +341,15 @@ var dom = function(dependency) {
    * @see https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
    * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
    * @param {string} deliveredSelection
-   * @param {object} settings
+   * @param {object} deliveredSettings
    * @return {object}
    */
-  function find(deliveredSelection, settings) {
+  function find(deliveredSelection, deliveredSettings) {
     var defaultSettings = {
       quantity: 'one',
       context: dependency.document,
     };
-    var estimatedSettings = settings ? dependency.window.Object.assign(defaultSettings, settings) : defaultSettings;
+    var estimatedSettings = deliveredSettings ? dependency.window.Object.assign(defaultSettings, deliveredSettings) : defaultSettings;
 
     if (estimatedSettings.quantity === 'one') {
       return estimatedSettings.context.querySelector(deliveredSelection);
@@ -370,4 +370,4 @@ var dom = function(dependency) {
 }({
   document: document,
   window: window,
-});
+}));
