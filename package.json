@@ -1,5 +1,5 @@
 {
-  "name": "dom",
+  "name": "@jstiller/dom",
   "version": "0.0.1",
   "description": "A little library to manipulate the dom",
   "main": "dom.js",
