@@ -1,4 +1,7 @@
-var dom = (function(dependency) {
+var jstiller = jstiller || {};
+jstiller.components = jstiller.components || {};
+
+jstiller.components.dom = (function(dependency) {
   /**
    * Returns if the delivered node is a node
    *
