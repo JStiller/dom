@@ -337,6 +337,27 @@ jstiller.components.dom = (function(dependency) {
     },
   };
 
+  var create = {
+    /**
+     * Returns an node by the given name with the delivered attributes
+     * 
+     * @param {string} deliveredNodeName
+     * @param {object} deliveredAttributes
+     * @return {object}
+     */
+    element: function(deliveredNodeName, deliveredAttributes) {
+      var estimatedNode = dependency.document.createElement(deliveredNodeName);
+
+      if(deliveredAttributes) {
+        for(attributeName in deliveredAttributes) {
+          estimatedNode.setAttribute(attributeName, deliveredAttributes[attributeName]);
+        }
+      }
+
+      return estimatedNode;
+    }
+  }
+
   /**
    * Returns a node or list of nodes by the delivered selection
    *
@@ -365,6 +386,7 @@ jstiller.components.dom = (function(dependency) {
 
   return {
     parse: parse,
+    create: create,
     insert: insert,
     replace: replace,
     remove: remove,

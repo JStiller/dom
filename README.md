@@ -94,6 +94,15 @@ var mainNode = dom.find('main');
 dom.remove.className('class').from(mainNode);
 ```
 
+## create
+
+### element
+```js
+var mainNode = dom.create.element('div', {
+  align: 'left'
+});
+```
+
 ## find
 
 ```js
