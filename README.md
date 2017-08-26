@@ -4,59 +4,59 @@ A little library to manipulate the dom
 ## parse
 
 ```js
-dom.parse('<div><p>text</p></div><button>button</button>');
+jstiller.components.dom.parse('<div><p>text</p></div><button>button</button>');
 ```
 
 ## insert
 
 ### element
 ```js
-var existingNode = document.querySelector('body').firstChild,
-    newNode = document.createElement('div');
+var existingNode = jstiller.components.dom.find('body').firstChild,
+    newNode = jstiller.components.dom.create.element('div');
 
-dom.insert.element(newNode).before(existingNode);
+jstiller.components.dom.insert.element(newNode).before(existingNode);
 ```
 
 ```js
-var existingNode = document.querySelector('body').firstChild,
-    newNode = document.createElement('div');
+var existingNode = jstiller.components.dom.find('body').firstChild,
+    newNode = jstiller.components.dom.create.element('div');
 
-dom.insert.element(newNode).after(existingNode);
+jstiller.components.dom.insert.element(newNode).after(existingNode);
 ```
 
 ```js
-var existingNode = document.querySelector('body').firstChild,
-    newNode = document.createElement('div');
+var existingNode = jstiller.components.dom.find('body').firstChild,
+    newNode = jstiller.components.dom.create.element('div');
 
-dom.insert.element(newNode).into(existingNode);
+jstiller.components.dom.insert.element(newNode).into(existingNode);
 ```
 
 ### className
 
 ```js
-var existingNode = document.createElement('div');
+var existingNode = jstiller.components.dom.create.element('div');
 
-dom.insert.className('class').to(existingNode);
+jstiller.components.dom.insert.className('class').to(existingNode);
 ```
 
 ### text
 
 ```js
-var existingNode = document.createElement('div');
+var existingNode = jstiller.components.dom.create.element('div');
 
-dom.insert.text('text ...').before(existingNode);
+jstiller.components.dom.insert.text('text ...').before(existingNode);
 ```
 
 ```js
-var existingNode = document.createElement('div');
+var existingNode = jstiller.components.dom.create.element('div');
 
-dom.insert.text('text ...').after(existingNode);
+jstiller.components.dom.insert.text('text ...').after(existingNode);
 ```
 
 ```js
-var existingNode = document.createElement('div');
+var existingNode = jstiller.components.dom.create.element('div');
 
-dom.insert.text('text ...').into(existingNode);
+jstiller.components.dom.insert.text('text ...').into(existingNode);
 ```
 
 ## replace
@@ -64,18 +64,18 @@ dom.insert.text('text ...').into(existingNode);
 ### element
 
 ```js
-var mainNode = dom.find('main'),
-  newMainNode = dom.find('main');
+var mainNode = jstiller.components.dom.find('main'),
+  newMainNode = jstiller.components.dom.find('main');
 
-dom.replace.element(mainNode).by(newMainNode);
+jstiller.components.dom.replace.element(mainNode).by(newMainNode);
 ```
 
 ### text
 
 ```js
-var mainNode = dom.find('main');
+var mainNode = jstiller.components.dom.find('main');
 
-dom.replace.text('text ...').of(mainNode);
+jstiller.components.dom.replace.text('text ...').of(mainNode);
 ```
 
 ## remove
@@ -83,22 +83,22 @@ dom.replace.text('text ...').of(mainNode);
 ### element
 
 ```js
-var mainNode = dom.find('main');
-dom.remove.element(mainNode);
+var mainNode = jstiller.components.dom.find('main');
+jstiller.components.dom.remove.element(mainNode);
 ```
 
 ### className
 
 ```js
-var mainNode = dom.find('main');
-dom.remove.className('class').from(mainNode);
+var mainNode = jstiller.components.dom.find('main');
+jstiller.components.dom.remove.className('class').from(mainNode);
 ```
 
 ## create
 
 ### element
 ```js
-var mainNode = dom.create.element('div', {
+var mainNode = jstiller.components.dom.create.element('div', {
   align: 'left'
 });
 ```
@@ -106,23 +106,23 @@ var mainNode = dom.create.element('div', {
 ## find
 
 ```js
-var mainNode = dom.find('main');
+var mainNode = jstiller.components.dom.find('main');
 ```
 
 ```js
-var mainNode = dom.find('main', {
+var mainNode = jstiller.components.dom.find('main', {
   quantity: 'all'
 });
 ```
 
 ```js
-var mainNode = dom.find('main', {
+var mainNode = jstiller.components.dom.find('main', {
   context: document,
 });
 ```
 
 ```js
-var mainNode = dom.find('main', {
+var mainNode = jstiller.components.dom.find('main', {
   quantity: 'one',
   context: document,
 });
