@@ -2,16 +2,24 @@ var jstiller = jstiller || {};
 jstiller.components = jstiller.components || {};
 
 jstiller.components.dom = (function(dependency) {
+  var create,
+    insert,
+    replace,
+    remove;
+
   /**
    * Returns if the delivered node is a node
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Node/nodeType
    * @param {object} deliveredNode 
    * @return {boolean}
    */
-  function _isNode(deliveredNode) {
-    if (typeof deliveredNode !== 'undefined' && 'nodeType' in deliveredNode && deliveredNode.nodeType > 0) {
-      return true;
+  function isNode(deliveredNode) {
+    if (typeof dependency.window.Node === 'object') {
+      if (deliveredNode instanceof dependency.window.Node) {
+        if (typeof deliveredNode.nodeType === 'number' && typeof deliveredNode.nodeName === 'string') {
+          return true;
+        }
+      }
     }
 
     return false;
@@ -20,8 +28,6 @@ jstiller.components.dom = (function(dependency) {
   /**
    * Return an html fragment by a given string
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/DOMParser
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Document/createDocumentFragment
    * @param {string} deliveredText
    * @return {object}
    */
@@ -50,7 +56,7 @@ jstiller.components.dom = (function(dependency) {
     return resultingFragment;
   }
 
-  var remove = {
+  remove = {
     /**
      * Removes the delivered node
      *
@@ -58,7 +64,7 @@ jstiller.components.dom = (function(dependency) {
      * @return {boolean}
      */
     element: function (deliveredNode) {
-      if (_isNode(deliveredNode) && _isNode(deliveredNode.parentNode)) {
+      if (isNode(deliveredNode) && isNode(deliveredNode.parentNode)) {
         deliveredNode.parentNode.removeChild(deliveredNode);
         return true;
       }
@@ -78,7 +84,7 @@ jstiller.components.dom = (function(dependency) {
        * @return {boolean}
        */
       function from(deliveredNode) {
-        if (_isNode(deliveredNode) && deliveredNode.classList.contains(deliveredClassName) === true) {
+        if (isNode(deliveredNode) && deliveredNode.classList.contains(deliveredClassName) === true) {
           deliveredNode.classList.remove(deliveredClassName);
           return true;
         }
@@ -92,7 +98,7 @@ jstiller.components.dom = (function(dependency) {
     },
   };
 
-  var insert = {
+  insert = {
     /**
      * Insert the delivered new node before, after or into the delivered node
      *
@@ -107,7 +113,7 @@ jstiller.components.dom = (function(dependency) {
        * @return {boolean} 
        */
       function _insert(deliveredNode) {
-        if (_isNode(deliveredNode) && _isNode(deliveredNode.parentNode)) {
+        if (isNode(deliveredNode) && isNode(deliveredNode.parentNode)) {
           deliveredNode.parentNode.insertBefore(deliveredNewNode, deliveredNode);
           return true;
         }
@@ -154,7 +160,7 @@ jstiller.components.dom = (function(dependency) {
        * @return {boolean} 
        */
       function into(deliveredNode) {
-        if (_isNode(deliveredNode)) {
+        if (isNode(deliveredNode)) {
           deliveredNode.appendChild(deliveredNewNode);
         }
       }
@@ -181,7 +187,7 @@ jstiller.components.dom = (function(dependency) {
        * @return {boolean} 
        */
       function to(deliveredNode) {
-        if (_isNode(deliveredNode) && deliveredNode.classList.contains(deliveredClassName) === false) {
+        if (isNode(deliveredNode) && deliveredNode.classList.contains(deliveredClassName) === false) {
           deliveredNode.classList.add(deliveredClassName);
           return true;
         }
@@ -211,7 +217,7 @@ jstiller.components.dom = (function(dependency) {
        * @return {boolean} 
        */
       function _insert(deliveredNode) {
-        if (_isNode(deliveredNode) && _isNode(deliveredNode.parentNode)) {
+        if (isNode(deliveredNode) && isNode(deliveredNode.parentNode)) {
           deliveredNode.parentNode.insertBefore(textNode, deliveredNode);
           return true;
         }
@@ -256,7 +262,7 @@ jstiller.components.dom = (function(dependency) {
        * @return {boolean} 
        */
       function into(deliveredNode) {
-        if (!_isNode(deliveredNode)) {
+        if (!isNode(deliveredNode)) {
           return false;
         }
 
@@ -273,14 +279,14 @@ jstiller.components.dom = (function(dependency) {
     },
   };
 
-  var replace = {
+  replace = {
     /**
      * Replace the delivered node by the delivered new node
      *
      * @param  {object} deliveredNode
      * @return {object}
      */
-    element: function(deliveredNode) {
+    element: function (deliveredNode) {
       /**
        * Returns if the replacement by the delivered node worked
        *
@@ -288,7 +294,7 @@ jstiller.components.dom = (function(dependency) {
        * @return {boolean}
        */
       function by(deliveredNewNode) {
-        if (!_isNode(deliveredNewNode) || !_isNode(deliveredNode)) {
+        if (!isNode(deliveredNewNode) || !isNode(deliveredNode)) {
           return false;
         }
 
@@ -300,7 +306,7 @@ jstiller.components.dom = (function(dependency) {
       }
 
       return {
-        by: by
+        by: by,
       };
     },
 
@@ -310,7 +316,7 @@ jstiller.components.dom = (function(dependency) {
      * @param  {string} deliveredText
      * @return {object}
      */
-    text: function(deliveredText) {
+    text: function (deliveredText) {
       if (typeof deliveredText !== 'string') {
         throw new TypeError('expected string');
       }
@@ -322,7 +328,7 @@ jstiller.components.dom = (function(dependency) {
        * @return {boolean}
        */
       function of(deliveredNode) {
-        if (!_isNode(deliveredNode)) {
+        if (!isNode(deliveredNode)) {
           return false;
         }
 
@@ -332,12 +338,12 @@ jstiller.components.dom = (function(dependency) {
       }
 
       return {
-        of: of
+        of: of,
       };
     },
   };
 
-  var create = {
+  create = {
     /**
      * Returns an node by the given name with the delivered attributes
      * 
@@ -345,35 +351,32 @@ jstiller.components.dom = (function(dependency) {
      * @param {object} deliveredAttributes
      * @return {object}
      */
-    element: function(deliveredNodeName, deliveredAttributes) {
+    element: function (deliveredNodeName, deliveredAttributes) {
       var estimatedNode = dependency.document.createElement(deliveredNodeName);
 
-      if(deliveredAttributes) {
-        for(attributeName in deliveredAttributes) {
+      if (deliveredAttributes) {
+        for (attributeName in deliveredAttributes) {
           estimatedNode.setAttribute(attributeName, deliveredAttributes[attributeName]);
         }
       }
 
       return estimatedNode;
-    }
-  }
+    },
+  };
 
   /**
    * Returns a node or list of nodes by the delivered selection
    *
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
-   * @see https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll
-   * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
    * @param {string} deliveredSelection
    * @param {object} deliveredSettings
    * @return {object}
    */
   function find(deliveredSelection, deliveredSettings) {
     var defaultSettings = {
-      quantity: 'one',
-      context: dependency.document,
-    };
-    var estimatedSettings = deliveredSettings ? dependency.window.Object.assign(defaultSettings, deliveredSettings) : defaultSettings;
+        quantity: 'one',
+        context: dependency.document,
+      },
+      estimatedSettings = deliveredSettings ? dependency.window.Object.assign(defaultSettings, deliveredSettings) : defaultSettings;
 
     if (estimatedSettings.quantity === 'one') {
       return estimatedSettings.context.querySelector(deliveredSelection);
